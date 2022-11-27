@@ -8,13 +8,13 @@ public class Playerr_Controller : MonoBehaviour
 {
     private Rigidbody m_Rigidbody;
     public float m_Speed = 5f;
-   
+    Game_Manager manager;
 
     void Start()
     {
         //Fetch the Rigidbody from the GameObject with this script attached
         m_Rigidbody = GetComponent<Rigidbody>();
-        
+        manager = GameObject.FindObjectOfType<Game_Manager>();
     }
 
     void FixedUpdate()
@@ -27,11 +27,31 @@ public class Playerr_Controller : MonoBehaviour
         m_Rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * m_Speed);
     }
 
+    public void RestartLevel()
+    {
+        manager.RestartLevel();
+    }
+    public void FinishLevel()
+    {
+        manager.FinishLevel();
+    }
     private void OnCollisionEnter(Collision otr)
     {
-        if (otr.gameObject.CompareTag("Ground"))
+        if (otr.gameObject.CompareTag("Respawn"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            RestartLevel();
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Finish"))
+        {
+            bool canFinish = other.gameObject.GetComponent<Win_Controller>().active;
+            if (canFinish == true)
+            {
+                FinishLevel();
+            }
+            
         }
     }
 }

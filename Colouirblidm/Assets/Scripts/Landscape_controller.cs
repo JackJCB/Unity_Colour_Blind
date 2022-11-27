@@ -30,6 +30,6 @@ public class Landscape_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(isTouchingPlayer);
+        
     }
 }
