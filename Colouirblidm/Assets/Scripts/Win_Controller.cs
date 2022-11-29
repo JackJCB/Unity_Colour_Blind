@@ -8,8 +8,8 @@ public class Win_Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        
+
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -19,15 +19,13 @@ public class Win_Controller : MonoBehaviour
     }
     public void FinishIsActive()
     {
-        var cubeRenderer = gameObject.GetComponent<Renderer>();
-        cubeRenderer.material.SetColor("_Color", Color.blue);
+        gameObject.SetActive(true);
         active = true;
     }
 
     public void FinishIsntActive()
     {
-        var cubeRenderer = gameObject.GetComponent<Renderer>();
-        cubeRenderer.material.SetColor("_Color", Color.grey);
+        gameObject.SetActive(false);
         active = false;
     }
 }
