@@ -9,7 +9,7 @@ public class Win_Controller : MonoBehaviour
     void Start()
     {
 
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     // Update is called once per frame

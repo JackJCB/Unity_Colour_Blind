@@ -5,6 +5,7 @@ using UnityEngine;
 public class Landscape_controller : MonoBehaviour
 {
     public bool isTouchingPlayer;
+    public string colours =  "green";
 
     private void OnTriggerEnter(Collider other)
     {

@@ -15,4 +15,8 @@ public class Game_Manager : MonoBehaviour
     {
         completeLevelUI.SetActive(true);
     }
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 }

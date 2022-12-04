@@ -14,13 +14,18 @@ public class Move_Map : MonoBehaviour
     private bool playerOn;
     public bool win;
     private int positionsCorrect = 0;
+    public bool easymode;
     public GameObject[] currentPositions;
     public Vector3[] EndPositions;
     Win_Controller Win_Controller;
+    private bool firstCorrect = false;
+    private bool secondCorrect = false;
+
+    private string colour;
     void Start()
     {
         currentPositions = GameObject.FindGameObjectsWithTag("Moveable");
-        Win_Controller = FindObjectOfType<Win_Controller>();
+        Win_Controller = GameObject.FindObjectOfType<Win_Controller>();
     }
     void Update()
     {
@@ -59,6 +64,8 @@ public class Move_Map : MonoBehaviour
 
                                 AreAllCorrect();
                                 CanFinishLevel();
+                                Debug.Log(AreAllCorrect());
+                                
                                 
                             }
                         }
@@ -70,18 +77,80 @@ public class Move_Map : MonoBehaviour
     //checks to see if all the landscape pieces are in the correct position to finish the level
     private bool AreAllCorrect()
     {
-        for (int i = 0; i<currentPositions.Length; i++)
+        if (easymode == false)
         {
-            if (currentPositions[i].transform.position == EndPositions[i])
+            for (int i = 0; i < currentPositions.Length; i++)
             {
-                positionsCorrect++;
-                
-                if(positionsCorrect == 8)
-                {   
-                    positionsCorrect = 0;
-                    return true;
-                }        
-            }   
+                if (currentPositions[i].transform.position == EndPositions[i])
+                {
+                    positionsCorrect++;
+
+                    if (positionsCorrect == 8)
+                    {
+                        positionsCorrect = 0;
+                        return true;
+                    }
+                }
+            }
+        }
+        if (easymode == true)
+        {
+            
+            colour = landscapeScript.colours;
+            
+            for (int i = 0; i < currentPositions.Length; i++)
+            {
+                if (colour == "green")
+                {
+                    for (int n = 0; n < currentPositions.Length/2; n++)
+                    {
+                         if (currentPositions[i].transform.position == EndPositions[n])
+                         {
+                             positionsCorrect++;
+                             if (positionsCorrect == currentPositions.Length / 2)
+                             {
+                                firstCorrect = true;
+                                positionsCorrect = 0;
+                                if (firstCorrect == true && secondCorrect == true)
+                                {
+                                    Debug.Log("firstCorrect");
+                                    return true;
+                                }
+
+                             }
+                        
+                         }
+                    }
+                }
+
+                if (colour == "red")
+                {
+                    Debug.Log(colour);
+                    for (int n = (currentPositions.Length / 2) ; n < currentPositions.Length; n++)
+                    {
+                        if (currentPositions[i].transform.position == EndPositions[n])
+                        {
+                            positionsCorrect++;
+                            Debug.Log(positionsCorrect);
+                            if (positionsCorrect == currentPositions.Length / 2)
+                            {
+                                secondCorrect = true;
+                                positionsCorrect = 0;
+                                if (firstCorrect == true && secondCorrect == true)
+                                {
+                                    Debug.Log("secondCorrect");
+                                    return true;
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+               
+            }
+           
+            
         }
         positionsCorrect = 0;
         return false;      
