@@ -20,6 +20,7 @@ public class Move_Map : MonoBehaviour
     Win_Controller Win_Controller;
     private bool firstCorrect = false;
     private bool secondCorrect = false;
+    
 
     private string colour;
     void Start()
@@ -77,6 +78,7 @@ public class Move_Map : MonoBehaviour
     //checks to see if all the landscape pieces are in the correct position to finish the level
     private bool AreAllCorrect()
     {
+        
         if (easymode == false)
         {
             for (int i = 0; i < currentPositions.Length; i++)
@@ -95,60 +97,70 @@ public class Move_Map : MonoBehaviour
         }
         if (easymode == true)
         {
+            int redPosCorrect = 0;
+            int greenPosCorrect = 0;
             
             colour = landscapeScript.colours;
-            
-            for (int i = 0; i < currentPositions.Length; i++)
-            {
+
                 if (colour == "green")
                 {
-                    for (int n = 0; n < currentPositions.Length/2; n++)
+                    for (int i = 0; i < currentPositions.Length/2; i++)
                     {
-                         if (currentPositions[i].transform.position == EndPositions[n])
-                         {
-                             positionsCorrect++;
-                             if (positionsCorrect == currentPositions.Length / 2)
-                             {
-                                firstCorrect = true;
-                                positionsCorrect = 0;
-                                if (firstCorrect == true && secondCorrect == true)
+                        for (int n = 0; n < currentPositions.Length / 2; n++)
+                        {
+                            if (currentPositions[i].transform.position == EndPositions[n])
+                            {
+                                greenPosCorrect++;
+                                Debug.Log(greenPosCorrect);
+                                if (greenPosCorrect == currentPositions.Length / 2)
                                 {
-                                    Debug.Log("firstCorrect");
-                                    return true;
+                                    firstCorrect = true;
                                 }
-
-                             }
-                        
-                         }
+                                else
+                                {
+                                firstCorrect = false;
+                                }
+                                
+                            }
+                        }
                     }
                 }
 
                 if (colour == "red")
                 {
-                    Debug.Log(colour);
-                    for (int n = (currentPositions.Length / 2) ; n < currentPositions.Length; n++)
+                    for (int i = currentPositions.Length / 2; i < currentPositions.Length; i++)
                     {
-                        if (currentPositions[i].transform.position == EndPositions[n])
+                        for (int n = (currentPositions.Length / 2); n < currentPositions.Length; n++)
                         {
-                            positionsCorrect++;
-                            Debug.Log(positionsCorrect);
-                            if (positionsCorrect == currentPositions.Length / 2)
+                            if (currentPositions[i].transform.position == EndPositions[n])
                             {
-                                secondCorrect = true;
-                                positionsCorrect = 0;
-                                if (firstCorrect == true && secondCorrect == true)
+                                redPosCorrect++;
+                                Debug.Log(redPosCorrect);
+                                if (redPosCorrect == currentPositions.Length / 2)
                                 {
-                                    Debug.Log("secondCorrect");
-                                    return true;
+                                    secondCorrect = true;
                                 }
-
+                                else
+                                {
+                                    secondCorrect = false;
+                                }
+                                    
+                                
                             }
-
                         }
                     }
                 }
                
-            }
+
+                if (firstCorrect == true && secondCorrect == true)
+                {
+                        
+                    return true;
+                }
+
+                
+
+            
            
             
         }
